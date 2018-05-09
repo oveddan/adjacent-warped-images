@@ -4,6 +4,9 @@ const mouse = require('mouse-change')()
 
 // const warpFrag = require('./warp.frag');
 // const warpVert = require('./warp.vert');
+var fs = require('fs');
+
+var str = fs.readFileSync('./warp.frag', 'utf8');
 
 const canvas = document.getElementById('canvas');
 const reglInstance = regl(canvas);

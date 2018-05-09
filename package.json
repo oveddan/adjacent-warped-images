@@ -14,6 +14,7 @@
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babelify": "^8.0.0",
+    "brfs": "^1.6.1",
     "budo": "^11.2.0",
     "glslify": "^6.1.1",
     "mouse-change": "^1.4.0",
