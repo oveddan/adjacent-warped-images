@@ -22,7 +22,7 @@ module.exports = {
         exclude: /node_modules/,
         options: {
           presets: ['env'],
-          plugins: ['transform-object-rest-spread']
+          // plugins: ['transform-object-rest-spread']
         }
       },
       { test: /\.(glsl|frag|vert)$/, loader: 'raw-loader', exclude: /node_modules/ },
