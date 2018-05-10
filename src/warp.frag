@@ -54,7 +54,7 @@ void main() {
   // n += abs(sin(u_time / 10.)) / 10.;
   float cursorStrength = smoothstep(.3, 0., length(mouse- v_texcoord));
   vec2 warpedPosition = v_texcoord + n  * cursorStrength;
-  warpedPosition.y = clamp(warpedPosition.y, 0., 1.);
+  warpedPosition.y = 1.-clamp(warpedPosition.y, 0., 1.);
   warpedPosition.x = clamp(warpedPosition.x, 0., 1.);
   vec4 color = texture2D(uImage, warpedPosition);
   // color = texture2D(uImage, v_texcoord);
