@@ -6,6 +6,9 @@ uniform sampler2D uImage;
 uniform vec2 uMouse;
 varying vec2 v_texcoord;
 uniform float u_time;
+uniform vec2 u_resolution;
+uniform float width;//: reglInstance.context('viewportWidth'),
+uniform float height;
 
 float rand(vec2 n) {
   return fract(sin(dot(n, vec2(12.9898, 4.1414))) * 43758.5453);
@@ -34,23 +37,30 @@ float noisyWaveHeight(vec2 val) {
 }
 
 vec2 noisyNormal(vec2 val) {
-    float d = 1.;
-    vec2 vdx = val + vec2(0., d);
-    vec2 vdy = val + vec2(d, 0.);
-    
-    float n = noisyWaveHeight(val);
-    float ndx = noisyWaveHeight(vdx);
-    float ndy = noisyWaveHeight(vdy);
-    
-    return vec2(ndx - n, ndy - n) / d;
+  float d = 1.;
+  vec2 vdx = val + vec2(0., d);
+  vec2 vdy = val + vec2(d, 0.);
+  
+  float n = noisyWaveHeight(val);
+  float ndx = noisyWaveHeight(vdx);
+  float ndy = noisyWaveHeight(vdy);
+  
+  return vec2(ndx - n, ndy - n) / d;
 }
 
 void main() {
-  float n = noise(toRadialCoords(v_texcoord-uMouse, 1./10.) + sin(u_time * 2.));
-  float cursorStrength = smoothstep(.3, 0., length(uMouse- v_texcoord));
-  vec4 color = texture2D(uImage, v_texcoord+ n * 10. * cursorStrength);
+  vec2 mouse = uMouse;
+  float n = abs(noise(toRadialCoords(v_texcoord-mouse, 20.) + sin(u_time * PI * uMouse / 2.)));
+  // n += abs(sin(u_time / 10.)) / 10.;
+  float cursorStrength = smoothstep(.3, 0., length(mouse- v_texcoord));
+  vec2 warpedPosition = v_texcoord + n  * cursorStrength;
+  warpedPosition.y = clamp(warpedPosition.y, 0., 1.);
+  warpedPosition.x = clamp(warpedPosition.x, 0., 1.);
+  vec4 color = texture2D(uImage, warpedPosition);
   // color = texture2D(uImage, v_texcoord);
   // color = mix(color, vec4(0.), cursorStrength);
   // color = vec4(uMouse.x, uMouse.y, 0., 1.);
+  // color = vec4(abs(n), 0., 0., 1.);
+  // color = vec4(cursorStrength, 0., 0., 1.);
   gl_FragColor = color;
 }

@@ -72,7 +72,10 @@ function loadImageTexture(reglInstance, src) {
     var image = new Image()
     image.src = src
     image.onload = function () {
-      var imageTexture = reglInstance.texture(image)
+      var imageTexture = reglInstance.texture(image, {
+        wrapS: true,
+        wrapT: true
+      })
       resolve(imageTexture);
     }
   })
@@ -90,17 +93,13 @@ async function main() {
     const imageTexture = await loadImageTexture(reglInstance, canvas.dataset.image);
     const warper = createWarper(reglInstance, canvas);
 
-    function animate() {
+    reglInstance.frame(context => {
       warper({
         scale: 0.5 * Math.sin(new Date().getTime() / 1000),
         speed: 2,
         image: imageTexture
       });
-
-      requestAnimationFrame(animate);
-    }
-
-    animate();
+    })
   }
 }
 
