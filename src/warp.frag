@@ -62,5 +62,6 @@ void main() {
   // color = vec4(uMouse.x, uMouse.y, 0., 1.);
   // color = vec4(abs(n), 0., 0., 1.);
   // color = vec4(cursorStrength, 0., 0., 1.);
+  color = vec4(0.5, 0.2, 0.1, 1.0);
   gl_FragColor = color;
 }
