@@ -125,4 +125,6 @@ function main() {
   animateCanvases(canvases);
 }
 
-main();
+document.addEventListener("DOMContentLoaded", function(event) { 
+  main();
+});
