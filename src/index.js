@@ -78,10 +78,7 @@ function loadImageTexture(reglInstance, src) {
     var image = new Image()
     image.src = src
     image.onload = function () {
-      var imageTexture = reglInstance.texture(image, {
-        wrapS: true,
-        wrapT: true
-      })
+      var imageTexture = reglInstance.texture(image);
       resolve(imageTexture);
     }
   })

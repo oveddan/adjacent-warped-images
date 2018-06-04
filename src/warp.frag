@@ -48,19 +48,22 @@ vec2 noisyNormal(vec2 val) {
   return vec2(ndx - n, ndy - n) / d;
 }
 
+float wrapPosition (float position) {
+  if (position > 1.)
+    return position - 2. * (position - 1.);
+  return position;
+}
+
 void main() {
   vec2 mouse = uMouse;
   float n = abs(noise(toRadialCoords(v_texcoord-mouse, 20.) + sin(u_time * PI * uMouse / 2.)));
-  // n += abs(sin(u_time / 10.)) / 10.;
+
   float cursorStrength = smoothstep(.3, 0., length(mouse- v_texcoord));
   vec2 warpedPosition = v_texcoord + n  * cursorStrength;
-  warpedPosition.y = 1.-clamp(warpedPosition.y, 0., 1.);
-  warpedPosition.x = clamp(warpedPosition.x, 0., 1.);
+  warpedPosition.y = wrapPosition(warpedPosition.y);
+  warpedPosition.x = wrapPosition(warpedPosition.x);
+
   vec4 color = texture2D(uImage, warpedPosition);
-  // color = texture2D(uImage, v_texcoord);
-  // color = mix(color, vec4(0.), cursorStrength);
-  // color = vec4(uMouse.x, uMouse.y, 0., 1.);
-  // color = vec4(abs(n), 0., 0., 1.);
-  // color = vec4(cursorStrength, 0., 0., 1.);
+
   gl_FragColor = color;
 }
