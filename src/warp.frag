@@ -51,6 +51,8 @@ vec2 noisyNormal(vec2 val) {
 float wrapPosition (float position) {
   if (position > 1.)
     return position - 2. * (position - 1.);
+  if (position < 0.)
+    return 0.;
   return position;
 }
 
