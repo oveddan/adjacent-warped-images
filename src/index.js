@@ -7,6 +7,17 @@ const mouse = require('mouse-change')()
 const vertexShader = require('./warp.vert');
 const fragmentShader = require('./warp.frag');
 
+function isAndroid() {
+  return /Android/i.test(navigator.userAgent);
+}
+
+function isiOS() {
+  return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
+
+function isMobile() {
+  return isAndroid() || isiOS();
+}
 
 function createWarper(reglInstance, canvas) {
   return reglInstance({
@@ -30,6 +41,8 @@ function createWarper(reglInstance, canvas) {
       //
       u_time: reglInstance.context('time'),
       uMouse: function({boundingRect, drawingBufferWidth, drawingBufferHeight}) {
+        if (isMobile()) return [0.5, 0.5];
+
         let mouseX
         if (mouse.x <= boundingRect.left) {
           mouseX = -Infinity;
