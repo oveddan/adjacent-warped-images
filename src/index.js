@@ -91,14 +91,18 @@ let imageTexture;
 
 const aspect = 1000 / 625;
 
-async function main() {
-  const canvases = document.getElementsByClassName('warped');
-
+function setCanvasSizes(canvases) {
   for(let i = 0; i < canvases.length; i++) {
     const canvas = canvases[i];
     const { width } = canvas.parentElement.getBoundingClientRect();
     canvas.width = width;
     canvas.height = width / aspect;
+  }
+}
+
+async function animateCanvases(canvases) {
+  for(let i = 0; i < canvases.length; i++) {
+    const canvas = canvases[i];
     const reglInstance = regl(canvas);
 
     const imageTexture = await loadImageTexture(reglInstance, canvas.dataset.image);
@@ -112,6 +116,13 @@ async function main() {
       });
     })
   }
+}
+
+function main() {
+  const canvases = document.getElementsByClassName('warped');
+
+  setCanvasSizes(canvases);
+  animateCanvases(canvases);
 }
 
 main();
