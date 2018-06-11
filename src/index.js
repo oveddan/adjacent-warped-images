@@ -61,6 +61,8 @@ function createWarper(reglInstance, canvas) {
           mouseY = drawingBufferHeight - (mouse.y - boundingRect.top)
         }
 
+        console.log(mouse.x, mouseX, mouse.y, mouseY);
+
         return [mouseX / drawingBufferWidth, mouseY / drawingBufferHeight]
       },
       // Similarly there are shortcuts for accessing context variables
