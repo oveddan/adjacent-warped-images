@@ -11,22 +11,21 @@ module.exports = {
     publicPath: '/dist/',
     filename: '[name].bundle.js',
   },
-  devServer: {
-    contentBase: path.resolve(__dirname),
-  },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js?$/,
-        loader: 'babel-loader',
         exclude: /node_modules/,
-        options: {
-          presets: ['env'],
-          // plugins: ['transform-object-rest-spread']
+        use: {
+          options: {
+            presets: ['env'],
+            // plugins: ['transform-object-rest-spread']
+          },
+          loader: 'babel-loader',
         }
       },
-      { test: /\.(glsl|frag|vert)$/, loader: 'raw-loader', exclude: /node_modules/ },
-      { test: /\.(glsl|frag|vert)$/, loader: 'glslify-loader', exclude: /node_modules/ }
+      { test: /\.(glsl|frag|vert)$/, use: { loader: 'raw-loader' }, exclude: /node_modules/ },
+      { test: /\.(glsl|frag|vert)$/, use: { loader: 'glslify-loader' }, exclude: /node_modules/ }
     ]
   }
 }
