@@ -19,6 +19,21 @@ function isMobile() {
   return isAndroid() || isiOS();
 }
 
+function getParameterByName(name) {
+  const url = window.location.href;
+  name = name.replace(/[\[\]]/g, "\\$&");
+  var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+      results = regex.exec(url);
+  if (!results) return null;
+  if (!results[2]) return '';
+  return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+function getImagePath() {
+  const imagePath = getParameterByName('image') || 'library5.jpg';
+  return `/src/${imagePath}`;
+}
+
 function createWarper(reglInstance, canvas) {
   return reglInstance({
     frag: fragmentShader,
@@ -104,7 +119,9 @@ async function animateCanvases(canvases) {
     const canvas = canvases[i];
     const reglInstance = regl(canvas);
 
-    const imageTexture = await loadImageTexture(reglInstance, canvas.dataset.image);
+    const imagePath = getImagePath();
+
+    const imageTexture = await loadImageTexture(reglInstance, imagePath);
     const warper = createWarper(reglInstance, canvas);
 
     reglInstance.frame(context => {
