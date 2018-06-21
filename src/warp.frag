@@ -62,7 +62,7 @@ void main() {
 
   float cursorStrength = smoothstep(.3, 0., length(mouse- v_texcoord));
   vec2 warpedPosition = v_texcoord + n  * cursorStrength;
-  warpedPosition.y = wrapPosition(warpedPosition.y);
+  warpedPosition.y = 1.-wrapPosition(warpedPosition.y);
   warpedPosition.x = wrapPosition(warpedPosition.x);
 
   vec4 color = texture2D(uImage, warpedPosition);
